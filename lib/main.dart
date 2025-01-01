@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'screens/splash_screen.dart';
 import 'providers/favorites_provider.dart';
-import 'providers/theme_provider.dart';
+import 'screens/splash_screen.dart';
+import 'screens/welcome_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/settings_screen.dart';
+import 'theme/app_colors.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => FavoritesProvider()),
-        ChangeNotifierProvider(create: (_) => ThemeProvider()),
-      ],
-      child: const MyApp(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -21,15 +16,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeProvider>(
-      builder: (context, themeProvider, child) {
-        return MaterialApp(
-          title: 'RePoly',
-          theme: themeProvider.themeData,
-          home: const SplashScreen(),
-          debugShowCheckedModeBanner: false,
-        );
-      },
+    return ChangeNotifierProvider(
+      create: (context) => FavoritesProvider(),
+      child: MaterialApp(
+        title: 'RePolymer',
+        theme: ThemeData(
+          scaffoldBackgroundColor: AppColors.background,
+          useMaterial3: true,
+        ),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const SplashScreen(),
+          '/welcome': (context) => const WelcomeScreen(),
+          '/home': (context) => const HomeScreen(),
+          '/settings': (context) => const SettingsScreen(),
+        },
+      ),
     );
   }
 }

@@ -1,24 +1,51 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import 'test_detail_screen.dart';
+import '../screens/home_screen.dart';
 
 class TestScreen extends StatelessWidget {
   const TestScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [AppColors.background, AppColors.black],
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const HomeScreen(),
+          ),
+        );
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Test Prosedürleri'),
+          backgroundColor: AppColors.surface,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const HomeScreen(),
+                ),
+              );
+            },
+          ),
         ),
-      ),
-      child: ListView(
-        padding: const EdgeInsets.all(16),
-        children:
-            allTests.map((test) => _buildTestCard(context, test)).toList(),
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [AppColors.background, AppColors.black],
+            ),
+          ),
+          child: ListView(
+            padding: const EdgeInsets.all(16),
+            children:
+                allTests.map((test) => _buildTestCard(context, test)).toList(),
+          ),
+        ),
       ),
     );
   }

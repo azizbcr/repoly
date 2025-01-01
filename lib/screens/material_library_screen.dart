@@ -63,6 +63,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Kopma Uzaması': '150%',
         'Eğilme Modülü': '1.5 GPa',
       },
+      color: Colors.blue,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'Polietilen',
@@ -99,6 +105,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Kopma Uzaması': '400%',
         'Eğilme Modülü': '1.0 GPa',
       },
+      color: Colors.green,
+      mechanicalStrength: 6.5,
+      heatResistance: 5.0,
+      chemicalResistance: 7.0,
+      processability: 8.5,
+      costIndex: 9.0,
     ),
     Polymer(
       name: 'Polistiren',
@@ -136,6 +148,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Kopma Uzaması': '3%',
         'Eğilme Modülü': '3.0 GPa',
       },
+      color: Colors.orange,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'Polivinil Klorür',
@@ -173,6 +191,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Kopma Uzaması': '80%',
         'Eğilme Modülü': '2.8 GPa',
       },
+      color: Colors.orange,
+      mechanicalStrength: 8.0,
+      heatResistance: 7.0,
+      chemicalResistance: 6.5,
+      processability: 7.5,
+      costIndex: 7.5,
     ),
     Polymer(
       name: 'Polietilen Tereftalat',
@@ -180,8 +204,8 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
       category: 'Termoplastik',
       description: 'İçecek şişelerinde yaygın kullanılan şeffaf polimer.',
       properties: {
-        'Yoğunluk': '1.37 g/cm³',
-        'Erime Sıcaklığı': '250-270°C',
+        'Yoğunluk': '1.38 g/cm³',
+        'Erime Sıcaklığı': '260°C',
         'Çekme Mukavemeti': '55-75 MPa',
       },
       applications: ['İçecek Şişeleri', 'Ambalaj', 'Tekstil Elyafı'],
@@ -195,7 +219,7 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
       heatDeflection: 80,
       meltFlowIndex: 20,
       isFlameRetardant: false,
-      density: 1.37,
+      density: 1.38,
       isTransparent: true,
       isFlexible: false,
       isChemicalResistant: true,
@@ -209,6 +233,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Kopma Uzaması': '70%',
         'Eğilme Modülü': '2.6 GPa',
       },
+      color: Colors.purple,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'Poliamid (Naylon)',
@@ -246,6 +276,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Kopma Uzaması': '60%',
         'Eğilme Modülü': '2.8 GPa',
       },
+      color: Colors.red,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'Polikarbonat',
@@ -283,6 +319,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Kopma Uzaması': '100%',
         'Eğilme Modülü': '2.3 GPa',
       },
+      color: Colors.blue,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'Akrilonitril Bütadien Stiren',
@@ -320,6 +362,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Kopma Uzaması': '30%',
         'Eğilme Modülü': '2.4 GPa',
       },
+      color: Colors.red,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'Polimetil Metakrilat',
@@ -357,6 +405,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Kopma Uzaması': '5%',
         'Eğilme Modülü': '3.2 GPa',
       },
+      color: Colors.blue,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'Polietereterketon',
@@ -394,6 +448,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Kimyasal Direnç': 'Mükemmel',
         'Radyasyon Direnci': 'İyi',
       },
+      color: Colors.purple,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'Polibütilen Tereftalat',
@@ -431,6 +491,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Boyutsal Kararlılık': 'Çok İyi',
         'İşlenebilirlik': 'İyi',
       },
+      color: Colors.green,
+      mechanicalStrength: 6.5,
+      heatResistance: 5.0,
+      chemicalResistance: 7.0,
+      processability: 8.5,
+      costIndex: 9.0,
     ),
     Polymer(
       name: 'Polifenilen Sülfür',
@@ -468,6 +534,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Boyutsal Kararlılık': 'Mükemmel',
         'Alev Dayanımı': 'V-0',
       },
+      color: Colors.orange,
+      mechanicalStrength: 8.0,
+      heatResistance: 7.0,
+      chemicalResistance: 6.5,
+      processability: 7.5,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'Termoplastik Poliüretan',
@@ -505,6 +577,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Aşınma Direnci': 'Mükemmel',
         'Yağ Direnci': 'İyi',
       },
+      color: Colors.red,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'Akrilonitril Stiren Akrilat',
@@ -542,6 +620,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Renk Kararlılığı': 'Çok İyi',
         'Yüzey Kalitesi': 'Mükemmel',
       },
+      color: Colors.blue,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'Polieterimid',
@@ -579,6 +663,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Sterilizasyon': 'Tüm Metodlar',
         'Yanmazlık': 'V-0',
       },
+      color: Colors.purple,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'Polisülfon',
@@ -616,6 +706,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Gamma Sterilizasyon': 'Uygun',
         'Creep Direnci': 'Çok İyi',
       },
+      color: Colors.green,
+      mechanicalStrength: 6.5,
+      heatResistance: 5.0,
+      chemicalResistance: 7.0,
+      processability: 8.5,
+      costIndex: 9.0,
     ),
     Polymer(
       name: 'Polifenilen Oksit',
@@ -653,6 +749,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Elektriksel Özellikler': 'Çok İyi',
         'Sürünme Direnci': 'İyi',
       },
+      color: Colors.blue,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'Sıvı Kristal Polimer',
@@ -694,6 +796,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Akış Özellikleri': 'Çok İyi',
         'Elektriksel Özellikler': 'Mükemmel',
       },
+      color: Colors.purple,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'Poliamidimid',
@@ -731,6 +839,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Aşınma Direnci': 'Mükemmel',
         'Radyasyon Direnci': 'İyi',
       },
+      color: Colors.red,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'Polibenzimidazol',
@@ -768,6 +882,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Alev Dayanımı': 'Mükemmel',
         'Asit/Baz Direnci': 'Mükemmel',
       },
+      color: Colors.purple,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'Cam Elyaf Takviyeli Polipropilen',
@@ -805,6 +925,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Boyutsal Kararlılık': 'Mükemmel',
         'Yorulma Direnci': 'Çok İyi',
       },
+      color: Colors.blue,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'Karbon Elyaf Takviyeli PEEK',
@@ -842,6 +968,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Özgül Mukavemet': 'Mükemmel',
         'FST Özellikleri': 'Havacılık Standardı',
       },
+      color: Colors.purple,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'PC/ABS Alaşımı',
@@ -883,6 +1015,12 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Yüzey Kalitesi': 'Çok İyi',
         'İşlenebilirlik': 'İyi',
       },
+      color: Colors.blue,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     Polymer(
       name: 'Poliüretan Elastomer',
@@ -924,26 +1062,45 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
         'Aşınma Direnci': 'Üstün',
         'Geri Tepme': 'Mükemmel',
       },
+      color: Colors.red,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
   ];
 
   List<Polymer> get _filteredPolymers {
-    List<Polymer> filteredList = [];
+    final favoritesProvider =
+        Provider.of<FavoritesProvider>(context, listen: false);
+
     if (_searchQuery.isEmpty) {
-      filteredList = List.from(_allPolymers);
-    } else {
-      filteredList = _allPolymers
-          .where((polymer) =>
-              polymer.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-              polymer.abbreviation
-                  .toLowerCase()
-                  .contains(_searchQuery.toLowerCase()))
-          .toList();
+      // Favorileri en üste al
+      final List<Polymer> sortedList = List.from(_allPolymers);
+      sortedList.sort((a, b) {
+        final aIsFavorite = favoritesProvider.isFavorite(a);
+        final bIsFavorite = favoritesProvider.isFavorite(b);
+
+        if (aIsFavorite && !bIsFavorite) {
+          return -1;
+        } else if (!aIsFavorite && bIsFavorite) {
+          return 1;
+        }
+        return 0;
+      });
+      return sortedList;
     }
 
-    filteredList.sort((a, b) {
-      final favoritesProvider =
-          Provider.of<FavoritesProvider>(context, listen: false);
+    // Arama sonuçlarında da favorileri üste al
+    final List<Polymer> searchResults = _allPolymers.where((polymer) {
+      return polymer.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+          polymer.abbreviation
+              .toLowerCase()
+              .contains(_searchQuery.toLowerCase());
+    }).toList();
+
+    searchResults.sort((a, b) {
       final aIsFavorite = favoritesProvider.isFavorite(a);
       final bIsFavorite = favoritesProvider.isFavorite(b);
 
@@ -955,58 +1112,75 @@ class _MaterialLibraryScreenState extends State<MaterialLibraryScreen> {
       return 0;
     });
 
-    return filteredList;
+    return searchResults;
   }
 
   void _addToComparison(Polymer polymer) {
-    if (_comparisonList.length < 2) {
-      setState(() {
-        _comparisonList.add(polymer);
-      });
-
+    if (_comparisonList.contains(polymer)) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            _comparisonList.length == 1
-                ? '${polymer.name} karşılaştırma listesine eklendi. Bir polimer daha seçin.'
-                : '${polymer.name} eklendi. Karşılaştırma başlatılıyor...',
-          ),
-          action: _comparisonList.length == 2
-              ? SnackBarAction(
-                  label: 'KARŞILAŞTIR',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ComparisonScreen(
-                          selectedPolymers: _comparisonList,
-                        ),
-                      ),
-                    ).then((_) {
-                      setState(() {
-                        _comparisonList.clear();
-                      });
-                    });
-                  },
-                )
-              : null,
+        const SnackBar(
+          content: Text('Bu polimer zaten karşılaştırma listesinde'),
+          backgroundColor: Colors.red,
         ),
       );
+      return;
+    }
 
-      if (_comparisonList.length == 2) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ComparisonScreen(
-              selectedPolymers: _comparisonList,
+    setState(() {
+      if (_comparisonList.length < 2) {
+        _comparisonList.add(polymer);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${polymer.name} karşılaştırma listesine eklendi'),
+            backgroundColor: Colors.green,
+            action: SnackBarAction(
+              label: 'Karşılaştır',
+              textColor: Colors.white,
+              onPressed: () {
+                if (_comparisonList.length == 2) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ComparisonScreen(
+                        selectedPolymers: _comparisonList,
+                      ),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Karşılaştırma için 2 polimer seçin'),
+                      backgroundColor: Colors.orange,
+                    ),
+                  );
+                }
+              },
             ),
           ),
-        ).then((_) {
-          setState(() {
-            _comparisonList.clear();
-          });
-        });
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('En fazla 2 polimer karşılaştırılabilir'),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
+    });
+
+    if (_comparisonList.length == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ComparisonScreen(
+            selectedPolymers: _comparisonList,
+          ),
+        ),
+      ).then((_) {
+        setState(() {
+          _comparisonList.clear();
+        });
+      });
     }
   }
 

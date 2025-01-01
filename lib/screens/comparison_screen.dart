@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/polymer.dart';
 import '../theme/app_colors.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class ComparisonScreen extends StatelessWidget {
   final List<Polymer> selectedPolymers;
@@ -45,15 +46,21 @@ class ComparisonScreen extends StatelessWidget {
   Widget _buildComparisonHeader() {
     return Container(
       padding: const EdgeInsets.all(16),
-      child: Row(
+      child: Column(
         children: [
-          Expanded(
-            child: _buildPolymerCard(selectedPolymers[0]),
+          Row(
+            children: [
+              Expanded(
+                child: _buildPolymerCard(selectedPolymers[0]),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _buildPolymerCard(selectedPolymers[1]),
+              ),
+            ],
           ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: _buildPolymerCard(selectedPolymers[1]),
-          ),
+          const SizedBox(height: 24),
+          _buildRadarChart(),
         ],
       ),
     );
@@ -285,6 +292,134 @@ class ComparisonScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildRadarChart() {
+    return Column(
+      children: [
+        SizedBox(
+          height: 300,
+          child: RadarChart(
+            RadarChartData(
+              radarShape: RadarShape.polygon,
+              ticksTextStyle:
+                  const TextStyle(color: Colors.white70, fontSize: 12),
+              gridBorderData: BorderSide(color: Colors.white24, width: 1),
+              tickBorderData: BorderSide(color: Colors.white24, width: 1),
+              getTitle: (index, angle) {
+                switch (index) {
+                  case 0:
+                    return RadarChartTitle(
+                      text: 'Mekanik Dayanım',
+                      angle: angle,
+                    );
+                  case 1:
+                    return RadarChartTitle(
+                      text: 'Isı Dayanımı',
+                      angle: angle,
+                    );
+                  case 2:
+                    return RadarChartTitle(
+                      text: 'Kimyasal Direnç',
+                      angle: angle,
+                    );
+                  case 3:
+                    return RadarChartTitle(
+                      text: 'İşlenebilirlik',
+                      angle: angle,
+                    );
+                  case 4:
+                    return RadarChartTitle(
+                      text: 'Maliyet',
+                      angle: angle,
+                    );
+                  default:
+                    return const RadarChartTitle(text: '');
+                }
+              },
+              dataSets: [
+                RadarDataSet(
+                  fillColor: selectedPolymers[0].color.withOpacity(0.2),
+                  borderColor: selectedPolymers[0].color,
+                  entryRadius: 3,
+                  dataEntries: [
+                    RadarEntry(value: selectedPolymers[0].mechanicalStrength),
+                    RadarEntry(value: selectedPolymers[0].heatResistance),
+                    RadarEntry(value: selectedPolymers[0].chemicalResistance),
+                    RadarEntry(value: selectedPolymers[0].processability),
+                    RadarEntry(value: selectedPolymers[0].costIndex),
+                  ],
+                ),
+                RadarDataSet(
+                  fillColor: selectedPolymers[1].color.withOpacity(0.2),
+                  borderColor: selectedPolymers[1].color,
+                  entryRadius: 3,
+                  dataEntries: [
+                    RadarEntry(value: selectedPolymers[1].mechanicalStrength),
+                    RadarEntry(value: selectedPolymers[1].heatResistance),
+                    RadarEntry(value: selectedPolymers[1].chemicalResistance),
+                    RadarEntry(value: selectedPolymers[1].processability),
+                    RadarEntry(value: selectedPolymers[1].costIndex),
+                  ],
+                ),
+              ],
+              titleTextStyle: const TextStyle(
+                color: Colors.white70,
+                fontSize: 12,
+              ),
+              tickCount: 5,
+              titlePositionPercentageOffset: 0.2,
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        _buildChartLegend(),
+      ],
+    );
+  }
+
+  Widget _buildChartLegend() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _buildLegendItem(
+            selectedPolymers[0].name,
+            selectedPolymers[0].color,
+          ),
+          const SizedBox(width: 24),
+          _buildLegendItem(
+            selectedPolymers[1].name,
+            selectedPolymers[1].color,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLegendItem(String label, Color color) {
+    return Row(
+      children: [
+        Container(
+          width: 12,
+          height: 12,
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.2),
+            border: Border.all(color: color),
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Text(
+          label,
+          style: const TextStyle(
+            color: Colors.white70,
+            fontSize: 12,
+          ),
+        ),
+      ],
     );
   }
 }

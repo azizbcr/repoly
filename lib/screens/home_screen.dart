@@ -5,6 +5,12 @@ import '../screens/material_selector_screen.dart';
 import '../screens/settings_screen.dart';
 import '../theme/app_colors.dart';
 import '../widgets/custom_bottom_nav.dart';
+import 'dart:math';
+import 'package:url_launcher/url_launcher.dart';
+import '../models/polymer_fact.dart';
+import '../data/polymer_facts.dart';
+import '../models/daily_polymer.dart';
+import '../data/featured_polymers.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,6 +21,30 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  late DailyPolymer currentPolymer;
+  late PolymerFact currentFact;
+
+  @override
+  void initState() {
+    super.initState();
+    _getRandomPolymer();
+    _getRandomFact();
+  }
+
+  void _getRandomPolymer() {
+    final random = Random();
+    setState(() {
+      currentPolymer =
+          featuredPolymers[random.nextInt(featuredPolymers.length)];
+    });
+  }
+
+  void _getRandomFact() {
+    final random = Random();
+    setState(() {
+      currentFact = polymerFacts[random.nextInt(polymerFacts.length)];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,162 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
 
-                // Öne Çıkan Özellikler
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    'Öne Çıkan Özellikler',
-                    style: TextStyle(
-                      color: AppColors.grey,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-
-                // Özellik Kartları
-                SizedBox(
-                  height: 100,
-                  child: ListView(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      _buildFeatureCard(
-                        'Veritabanı',
-                        'Polimer malzemeler',
-                        Icons.storage,
-                        Colors.blue,
-                      ),
-                      _buildFeatureCard(
-                        'Test',
-                        'Test prosedürleri',
-                        Icons.science,
-                        Colors.orange,
-                      ),
-                      _buildFeatureCard(
-                        'Seçim',
-                        'Malzeme önerileri',
-                        Icons.psychology,
-                        Colors.green,
-                      ),
-                    ],
-                  ),
-                ),
-
-                // İstatistik Kartları
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: Row(
-                    children: [
-                      _buildStatCard(
-                        'Toplam\nMalzeme',
-                        '150+',
-                        Icons.category,
-                        Colors.purple,
-                      ),
-                      const SizedBox(width: 12),
-                      _buildStatCard(
-                        'Test\nProsedürü',
-                        '25+',
-                        Icons.science,
-                        Colors.orange,
-                      ),
-                      const SizedBox(width: 12),
-                      _buildStatCard(
-                        'Güncel\nStandart',
-                        '30+',
-                        Icons.verified,
-                        Colors.green,
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Hızlı Erişim Başlığı
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
-                  child: Text(
-                    'Hızlı Erişim',
-                    style: TextStyle(
-                      color: AppColors.grey,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-
-                // Hızlı Erişim Kartları
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      _buildQuickAccessCard(
-                        context,
-                        'Polimer Kütüphanesi',
-                        'Tüm polimer malzemeleri keşfedin',
-                        Icons.library_books,
-                        () => _navigateToLibrary(context),
-                      ),
-                      const SizedBox(height: 12),
-                      _buildQuickAccessCard(
-                        context,
-                        'Malzeme Seçimi',
-                        'Uygulamanıza göre malzeme önerileri',
-                        Icons.help_outline,
-                        () => _navigateToSelector(context),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // İpucu Kartı
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: AppColors.primary.withOpacity(0.3),
-                        width: 1,
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.lightbulb,
-                          color: AppColors.primary,
-                          size: 24,
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'İpucu',
-                                style: TextStyle(
-                                  color: AppColors.primary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                'Alt menüden test prosedürlerine hızlıca erişebilirsiniz.',
-                                style: TextStyle(
-                                  color: AppColors.grey,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Günün Polimeri ve Kategoriler
+                _buildDiscoverySection(context),
               ],
             ),
           ),
@@ -289,208 +165,331 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildFeatureCard(
-    String title,
-    String description,
-    IconData icon,
-    Color color,
-  ) {
-    return Container(
-      width: 140,
-      margin: const EdgeInsets.only(right: 8),
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: color.withOpacity(0.3),
-          width: 1,
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Icon(icon, color: color, size: 16),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    color: AppColors.white,
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Text(
-            description,
-            style: TextStyle(
-              color: AppColors.grey,
-              fontSize: 11,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
+  Widget _buildDiscoverySection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildFeaturedPolymer(context),
+        const SizedBox(height: 24),
+        _buildDidYouKnow(),
+        const SizedBox(height: 24),
+        _buildSectionTitle('Popüler Kategoriler'),
+        const SizedBox(height: 16),
+        _buildCategoryGrid(context),
+      ],
     );
   }
 
-  Widget _buildQuickAccessCard(BuildContext context, String title,
-      String subtitle, IconData icon, VoidCallback onTap) {
-    return Card(
-      color: Colors.blueGrey.shade700,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.tealAccent.shade700.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(icon, color: Colors.tealAccent.shade100),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      subtitle,
-                      style: TextStyle(
-                        color: Colors.grey.shade300,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.tealAccent.shade100,
-                size: 16,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _navigateToLibrary(BuildContext context) {
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const MaterialLibraryScreen(),
-      ),
-      (route) => false,
-    );
-  }
-
-  void _navigateToSelector(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const MaterialSelectorScreen(),
-      ),
-    );
-  }
-
-  void _navigateToSettings(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const SettingsScreen(),
-      ),
-    );
-  }
-
-  Widget _buildFeatureItem(String text) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          Icon(
-            Icons.check_circle,
-            color: AppColors.primary,
-            size: 20,
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                color: AppColors.white,
-                fontSize: 16,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStatCard(
-      String title, String value, IconData icon, Color color) {
-    return Expanded(
+  Widget _buildFeaturedPolymer(BuildContext context) {
+    return GestureDetector(
+      onTap: _getRandomPolymer,
       child: Container(
-        padding: const EdgeInsets.all(12),
+        margin: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: color.withOpacity(0.3),
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(16),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              currentPolymer.color.withOpacity(0.8),
+              AppColors.surface,
+            ],
           ),
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icon, color: color, size: 24),
-            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.star,
+                          color: currentPolymer.color,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 4),
+                        const Text(
+                          'Günün Polimeri',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.refresh, color: Colors.white70),
+                    onPressed: _getRandomPolymer,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    currentPolymer.name,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    currentPolymer.description,
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.7),
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: currentPolymer.properties
+                        .map((prop) => _buildPropertyChip(prop))
+                        .toList(),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Text(
+        title,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCategoryGrid(BuildContext context) {
+    return GridView.count(
+      padding: const EdgeInsets.all(16),
+      crossAxisCount: 2,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      mainAxisSpacing: 16,
+      crossAxisSpacing: 16,
+      children: [
+        _buildCategoryCard(
+          'Termoplastikler',
+          '45+ Polimer',
+          Icons.polymer,
+          Colors.blue,
+          context,
+        ),
+        _buildCategoryCard(
+          'Termosetler',
+          '25+ Polimer',
+          Icons.category,
+          Colors.orange,
+          context,
+        ),
+        _buildCategoryCard(
+          'Elastomerler',
+          '30+ Polimer',
+          Icons.waves,
+          Colors.purple,
+          context,
+        ),
+        _buildCategoryCard(
+          'Kompozitler',
+          '50+ Polimer',
+          Icons.layers,
+          Colors.green,
+          context,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCategoryCard(String title, String count, IconData icon,
+      Color color, BuildContext context) {
+    return InkWell(
+      onTap: () {
+        // Kategori sayfasına yönlendirme
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: color.withOpacity(0.2),
+            width: 1,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: color,
+              size: 40,
+            ),
+            const SizedBox(height: 12),
             Text(
-              value,
-              style: TextStyle(
-                color: color,
-                fontSize: 18,
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 4),
             Text(
-              title,
-              textAlign: TextAlign.center,
+              count,
               style: TextStyle(
-                color: AppColors.grey,
-                fontSize: 12,
+                color: Colors.white.withOpacity(0.7),
+                fontSize: 14,
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPropertyChip(String label) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        label,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 12,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDidYouKnow() {
+    return GestureDetector(
+      onTap: _getRandomFact,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.purple.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: Colors.purple.withOpacity(0.2),
+            width: 1,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.purple.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(
+                    Icons.lightbulb_outline,
+                    color: Colors.purple,
+                    size: 24,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                const Text(
+                  'Biliyor muydunuz?',
+                  style: TextStyle(
+                    color: Colors.purple,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Spacer(),
+                IconButton(
+                  icon: const Icon(Icons.refresh, color: Colors.purple),
+                  onPressed: _getRandomFact,
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(
+              currentFact.fact,
+              style: TextStyle(
+                color: Colors.white.withOpacity(0.8),
+                fontSize: 14,
+                height: 1.5,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Kaynak: ${currentFact.source}',
+                  style: TextStyle(
+                    color: Colors.purple.shade200,
+                    fontSize: 12,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+                if (currentFact.sourceUrl != null)
+                  TextButton(
+                    onPressed: () {
+                      launchUrl(Uri.parse(currentFact.sourceUrl!));
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          'Daha fazla bilgi',
+                          style: TextStyle(
+                            color: Colors.purple.shade200,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Icon(
+                          Icons.arrow_forward,
+                          color: Colors.purple.shade200,
+                          size: 16,
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
             ),
           ],
         ),

@@ -1,4 +1,5 @@
 import '../models/polymer.dart';
+import 'package:flutter/material.dart';
 
 class PolymersDatabase {
   static final List<Polymer> polymers = [
@@ -41,6 +42,12 @@ class PolymersDatabase {
         'Kopma Uzaması': '150%',
         'Eğilme Modülü': '1.5 GPa',
       },
+      color: Colors.blue,
+      mechanicalStrength: 7.5,
+      heatResistance: 6.0,
+      chemicalResistance: 8.0,
+      processability: 9.0,
+      costIndex: 8.5,
     ),
     // Diğer polimerler...
   ];

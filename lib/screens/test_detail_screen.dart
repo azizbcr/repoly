@@ -2,13 +2,46 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import 'test_screen.dart';
 
+class TestLab {
+  final String name;
+  final String location;
+  final String contact;
+  final String price;
+  final String duration;
+
+  TestLab({
+    required this.name,
+    required this.location,
+    required this.contact,
+    required this.price,
+    required this.duration,
+  });
+}
+
 class TestDetailScreen extends StatelessWidget {
   final TestProcedure test;
 
-  const TestDetailScreen({
+  TestDetailScreen({
     super.key,
     required this.test,
   });
+
+  final List<TestLab> testLabs = [
+    TestLab(
+      name: 'Azo Lab',
+      location: 'İstanbul',
+      contact: '0212 xxx xx xx',
+      price: '1500₺',
+      duration: '3-5 iş günü',
+    ),
+    TestLab(
+      name: 'Emobabagh Test Merkezi',
+      location: 'Ankara',
+      contact: 'lab@emobabagh.com',
+      price: '2000₺',
+      duration: '2-3 iş günü',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +70,7 @@ class TestDetailScreen extends StatelessWidget {
               _buildParametersSection(),
               const SizedBox(height: 24),
               _buildEquipmentSection(),
+              _buildTestLabs(),
             ],
           ),
         ),
@@ -175,6 +209,93 @@ class TestDetailScreen extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildTestLabs() {
+    return Card(
+      margin: const EdgeInsets.all(16),
+      color: AppColors.surface.withOpacity(0.8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: Text(
+              'Test Laboratuvarları',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const Divider(color: Colors.white24),
+          ...testLabs.map((lab) => _buildLabCard(lab)).toList(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLabCard(TestLab lab) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Colors.white24),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            lab.name,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          _buildLabInfo(Icons.location_on, lab.location),
+          _buildLabInfo(Icons.access_time, 'Süre: ${lab.duration}'),
+          _buildLabInfo(Icons.attach_money, 'Ücret: ${lab.price}'),
+          _buildLabInfo(Icons.contact_phone, lab.contact),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.tealAccent.shade700,
+                    foregroundColor: Colors.white,
+                  ),
+                  onPressed: () {
+                    // İletişim işlemleri
+                  },
+                  child: const Text('Teklif Al'),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLabInfo(IconData icon, String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        children: [
+          Icon(icon, size: 16, color: Colors.white70),
+          const SizedBox(width: 8),
+          Text(
+            text,
+            style: const TextStyle(color: Colors.white70),
+          ),
+        ],
+      ),
     );
   }
 
