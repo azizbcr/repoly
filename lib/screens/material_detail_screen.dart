@@ -1,219 +1,39 @@
 import 'package:flutter/material.dart';
+import '../models/polymer.dart';
+import '../theme/app_colors.dart';
 
 class MaterialDetailScreen extends StatelessWidget {
-  final Map<String, dynamic> material;
+  final Polymer polymer;
 
-  // Örnek uygulama görselleri (gerçek uygulamada asset olarak eklenecek)
-  final List<Map<String, String>> applications = [
-    {
-      'name': 'Otomotiv Parçaları',
-      'image': 'assets/images/automotive.jpg',
-      'description': 'Tampon, gösterge paneli, iç trim parçaları',
-    },
-    {
-      'name': 'Ev Aletleri',
-      'image': 'assets/images/appliances.jpg',
-      'description': 'Beyaz eşya parçaları, küçük ev aletleri',
-    },
-    // Diğer uygulamalar...
-  ];
-
-  // İşleme parametreleri
-  final Map<String, Map<String, String>> processingParameters = {
-    'Enjeksiyon': {
-      'Eriyik Sıcaklığı': '190-230°C',
-      'Kalıp Sıcaklığı': '20-40°C',
-      'Enjeksiyon Basıncı': '80-120 MPa',
-      'Kurutma': '80°C / 2-4 saat',
-    },
-    'Ekstrüzyon': {
-      'Eriyik Sıcaklığı': '180-220°C',
-      'Vida Hızı': '20-40 rpm',
-      'Soğutma': 'Su banyosu',
-    },
-  };
-
-  // Tedarikçi bilgileri
-  final List<Map<String, String>> suppliers = [
-    {
-      'name': 'PolymerCo',
-      'location': 'İstanbul',
-      'contact': '+90 212 XXX XX XX',
-      'minOrder': '25 kg',
-      'leadTime': '3-5 iş günü',
-    },
-    {
-      'name': 'PlasticTR',
-      'location': 'İzmir',
-      'contact': '+90 232 XXX XX XX',
-      'minOrder': '50 kg',
-      'leadTime': '1-2 hafta',
-    },
-  ];
-
-  MaterialDetailScreen({super.key, required this.material});
+  const MaterialDetailScreen({
+    super.key,
+    required this.polymer,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(material['name']),
-        backgroundColor: Colors.black,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.qr_code),
-            onPressed: () => _showQRCode(context),
-          ),
-        ],
+        title: Text(polymer.name),
+        backgroundColor: AppColors.surface,
       ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            colors: [Colors.black, Colors.blueGrey.shade900],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [AppColors.background, AppColors.black],
           ),
         ),
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Başlık Kartı
-              Card(
-                margin: const EdgeInsets.all(16),
-                color: Colors.blueGrey.shade800,
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            material['name'],
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const Spacer(),
-                          Row(
-                            children: List.generate(
-                              5,
-                              (i) => Icon(
-                                i < material['rating']
-                                    ? Icons.star
-                                    : Icons.star_border,
-                                color: Colors.amber,
-                                size: 20,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        material['description'],
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              // Teknik Özellikler
-              _buildSection(
-                'Teknik Özellikler',
-                [
-                  _buildPropertyTile('Yoğunluk', '0.91-0.97 g/cm³'),
-                  _buildPropertyTile('Erime Sıcaklığı', '160-170°C'),
-                  _buildPropertyTile('Çekme Mukavemeti', '25-35 MPa'),
-                  _buildPropertyTile('Su Emme', '<%0.01'),
-                  _buildPropertyTile('Darbe Dayanımı', 'İyi'),
-                ],
-              ),
-
-              // Kullanım Alanları
-              _buildSection(
-                'Kullanım Alanları',
-                [
-                  _buildBulletPoint('Otomotiv parçaları'),
-                  _buildBulletPoint('Ambalaj ürünleri'),
-                  _buildBulletPoint('Ev eşyaları'),
-                  _buildBulletPoint('Endüstriyel uygulamalar'),
-                ],
-              ),
-
-              // İşleme Yöntemleri
-              _buildSection(
-                'İşleme Yöntemleri',
-                [
-                  _buildBulletPoint('Enjeksiyon kalıplama'),
-                  _buildBulletPoint('Ekstrüzyon'),
-                  _buildBulletPoint('Şişirme kalıplama'),
-                  _buildBulletPoint('Termoform'),
-                ],
-              ),
-
-              // Avantajlar ve Dezavantajlar
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildSection(
-                      'Avantajlar',
-                      [
-                        _buildBulletPoint('Ekonomik'),
-                        _buildBulletPoint('Kolay işlenebilir'),
-                        _buildBulletPoint('Kimyasal direnci yüksek'),
-                      ],
-                      color: Colors.green.withOpacity(0.1),
-                    ),
-                  ),
-                  Expanded(
-                    child: _buildSection(
-                      'Dezavantajlar',
-                      [
-                        _buildBulletPoint('UV dayanımı düşük'),
-                        _buildBulletPoint('Çizilmeye duyarlı'),
-                        _buildBulletPoint('Yapışma zorluğu'),
-                      ],
-                      color: Colors.red.withOpacity(0.1),
-                    ),
-                  ),
-                ],
-              ),
-
-              // Fiyat Bilgisi
-              _buildSection(
-                'Fiyat Aralığı',
-                [
-                  _buildPropertyTile('Piyasa Fiyatı', '2-3 €/kg'),
-                  _buildPropertyTile('Minimum Sipariş', '25 kg'),
-                  _buildPropertyTile('Tedarik Süresi', '1-2 hafta'),
-                ],
-              ),
-
-              // Örnek Uygulamalar
-              _buildSection(
-                'Örnek Uygulamalar',
-                [_buildApplicationsGallery()],
-              ),
-
-              // İşleme Parametreleri
-              _buildSection(
-                'İşleme Parametreleri',
-                [_buildProcessingParameters()],
-              ),
-
-              // Tedarikçiler
-              _buildSection(
-                'Tedarikçiler',
-                [_buildSuppliersList()],
-              ),
+              _buildHeader(),
+              _buildProperties(),
+              _buildApplications(),
+              _buildMechanicalProperties(),
+              _buildThermalProperties(),
+              _buildAdditionalProperties(),
             ],
           ),
         ),
@@ -221,245 +41,223 @@ class MaterialDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSection(String title, List<Widget> children, {Color? color}) {
+  Widget _buildHeader() {
     return Card(
       margin: const EdgeInsets.all(16),
-      color: color ?? Colors.blueGrey.shade800,
+      color: Colors.blueGrey.shade800,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              title,
-              style: TextStyle(
-                color: Colors.tealAccent.shade100,
-                fontSize: 18,
+              polymer.name,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 16),
-            ...children,
+            const SizedBox(height: 8),
+            Text(
+              polymer.description,
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 16,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildPropertyTile(String property, String value) {
+  Widget _buildProperties() {
+    return Card(
+      margin: const EdgeInsets.all(16),
+      color: Colors.blueGrey.shade800,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Temel Özellikler',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            ...polymer.properties.entries.map(
+              (entry) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      entry.key,
+                      style: const TextStyle(color: Colors.white70),
+                    ),
+                    Text(
+                      entry.value,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildApplications() {
+    return Card(
+      margin: const EdgeInsets.all(16),
+      color: Colors.blueGrey.shade800,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Uygulama Alanları',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            ...polymer.applications.map(
+              (app) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  children: [
+                    const Icon(Icons.arrow_right, color: Colors.tealAccent),
+                    const SizedBox(width: 8),
+                    Text(
+                      app,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMechanicalProperties() {
+    return Card(
+      margin: const EdgeInsets.all(16),
+      color: Colors.blueGrey.shade800,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Mekanik Özellikler',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            _buildPropertyRow(
+                'Çekme Mukavemeti', '${polymer.tensileStrength} MPa'),
+            _buildPropertyRow('Kopma Uzaması', '${polymer.elongation}%'),
+            _buildPropertyRow(
+                'Eğilme Modülü', '${polymer.flexuralModulus} GPa'),
+            _buildPropertyRow(
+                'Darbe Dayanımı', '${polymer.impactStrength} kJ/m²'),
+            _buildPropertyRow('Sertlik', '${polymer.hardness} Shore D'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildThermalProperties() {
+    return Card(
+      margin: const EdgeInsets.all(16),
+      color: Colors.blueGrey.shade800,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Termal Özellikler',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            _buildPropertyRow('Erime Sıcaklığı', '${polymer.meltingTemp}°C'),
+            _buildPropertyRow(
+                'Camsı Geçiş Sıcaklığı', '${polymer.glassTransitionTemp}°C'),
+            _buildPropertyRow(
+                'Isı Sapma Sıcaklığı', '${polymer.heatDeflection}°C'),
+            _buildPropertyRow(
+                'Erime Akış İndeksi', '${polymer.meltFlowIndex} g/10min'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAdditionalProperties() {
+    return Card(
+      margin: const EdgeInsets.all(16),
+      color: Colors.blueGrey.shade800,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Ek Özellikler',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            ...polymer.additionalProperties.entries.map(
+              (entry) => _buildPropertyRow(entry.key, entry.value),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPropertyRow(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            property,
+            label,
             style: const TextStyle(color: Colors.white70),
           ),
           Text(
             value,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(color: Colors.white),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildBulletPoint(String text) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        children: [
-          Icon(
-            Icons.circle,
-            size: 8,
-            color: Colors.tealAccent.shade100,
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(color: Colors.white70),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildApplicationsGallery() {
-    return SizedBox(
-      height: 200,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: applications.length,
-        itemBuilder: (context, index) {
-          final app = applications[index];
-          return Card(
-            margin: const EdgeInsets.all(8),
-            color: Colors.blueGrey.shade700,
-            child: SizedBox(
-              width: 200,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: 120,
-                    color: Colors.blueGrey.shade600,
-                    child: const Center(
-                      child: Icon(Icons.image, size: 48, color: Colors.white54),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          app['name']!,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          app['description']!,
-                          style: const TextStyle(color: Colors.white70),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildProcessingParameters() {
-    return Column(
-      children: processingParameters.entries.map((entry) {
-        return Card(
-          margin: const EdgeInsets.symmetric(vertical: 8),
-          color: Colors.blueGrey.shade700,
-          child: ExpansionTile(
-            title: Text(
-              entry.key,
-              style: const TextStyle(color: Colors.white),
-            ),
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: entry.value.entries.map((param) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            param.key,
-                            style: const TextStyle(color: Colors.white70),
-                          ),
-                          Text(
-                            param.value,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
-          ),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _buildSuppliersList() {
-    return Column(
-      children: suppliers.map((supplier) {
-        return Card(
-          margin: const EdgeInsets.symmetric(vertical: 8),
-          color: Colors.blueGrey.shade700,
-          child: ListTile(
-            title: Text(
-              supplier['name']!,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Konum: ${supplier['location']}',
-                  style: const TextStyle(color: Colors.white70),
-                ),
-                Text(
-                  'Min. Sipariş: ${supplier['minOrder']}',
-                  style: const TextStyle(color: Colors.white70),
-                ),
-                Text(
-                  'Tedarik Süresi: ${supplier['leadTime']}',
-                  style: const TextStyle(color: Colors.white70),
-                ),
-              ],
-            ),
-            trailing: IconButton(
-              icon: const Icon(Icons.phone, color: Colors.tealAccent),
-              onPressed: () {
-                // Telefon numarasını arama işlevi eklenebilir
-              },
-            ),
-          ),
-        );
-      }).toList(),
-    );
-  }
-
-  void _showQRCode(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.blueGrey.shade900,
-        title: const Text(
-          'QR Kod',
-          style: TextStyle(color: Colors.white),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 200,
-              height: 200,
-              color: Colors.white,
-              child: const Center(
-                child: Icon(Icons.qr_code, size: 150),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Bu QR kodu tarayarak ${material['name']} hakkında detaylı bilgiye ulaşabilirsiniz.',
-              style: const TextStyle(color: Colors.white70),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
       ),
     );
   }

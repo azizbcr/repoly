@@ -83,8 +83,14 @@ class FavoritesScreen extends StatelessWidget {
                   trailing: IconButton(
                     icon: const Icon(Icons.favorite, color: Colors.redAccent),
                     onPressed: () {
-                      Provider.of<FavoritesProvider>(context, listen: false)
-                          .toggleFavorite(polymer);
+                      final favoritesProvider = Provider.of<FavoritesProvider>(
+                          context,
+                          listen: false);
+                      if (favoritesProvider.isFavorite(polymer)) {
+                        favoritesProvider.removeFavorite(polymer);
+                      } else {
+                        favoritesProvider.addFavorite(polymer);
+                      }
                     },
                   ),
                   onTap: () {

@@ -1,320 +1,317 @@
 import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
+import 'test_detail_screen.dart';
 
-class TestScreen extends StatefulWidget {
+class TestScreen extends StatelessWidget {
   const TestScreen({super.key});
 
   @override
-  State<TestScreen> createState() => _TestScreenState();
-}
-
-class _TestScreenState extends State<TestScreen> {
-  final TextEditingController _searchController = TextEditingController();
-  String _searchQuery = '';
-
-  final List<TestProcedure> _allTests = [
-    // Mekanik Testler
-    TestProcedure(
-      name: 'Çekme Testi',
-      isoCode: 'ISO 527',
-      category: 'Mekanik',
-      description:
-          'Malzemenin çekme mukavemeti, elastik modülü ve uzama değerlerinin belirlenmesi.',
-      procedure: [
-        'Numune hazırlama (ISO 527-2)',
-        'Test hızı: 50mm/dk',
-        'Sıcaklık: 23 ±2°C',
-        'Nem: 50 ±5%',
-      ],
-      equipment: ['Universal test cihazı', 'Ekstansometre'],
-      results: [
-        'Çekme mukavemeti (MPa)',
-        'Elastik modül (GPa)',
-        'Kopma uzaması (%)'
-      ],
-    ),
-    TestProcedure(
-      name: 'Darbe Testi',
-      isoCode: 'ISO 179',
-      category: 'Mekanik',
-      description: 'Charpy darbe dayanımının ölçülmesi.',
-      procedure: [
-        'Numune hazırlama',
-        'Çentikli/çentiksiz test',
-        'Standart test koşulları',
-      ],
-      equipment: ['Charpy darbe test cihazı', 'Çentik açma cihazı'],
-      results: ['Darbe dayanımı (kJ/m²)'],
-    ),
-    TestProcedure(
-      name: 'Sertlik Testi',
-      isoCode: 'ISO 868',
-      category: 'Mekanik',
-      description: 'Shore A/D sertlik değerinin ölçülmesi.',
-      procedure: [
-        'Minimum 6mm kalınlık',
-        'En az 5 farklı noktadan ölçüm',
-        'Yük uygulama süresi: 15s',
-      ],
-      equipment: ['Shore durometre'],
-      results: ['Shore A/D sertlik değeri'],
-    ),
-
-    // Termal Testler
-    TestProcedure(
-      name: 'DSC Analizi',
-      isoCode: 'ISO 11357',
-      category: 'Termal',
-      description: 'Erime sıcaklığı ve camsı geçiş sıcaklığının belirlenmesi.',
-      procedure: [
-        'Numune ağırlığı: 5-10mg',
-        'Isıtma hızı: 10°C/dk',
-        'Sıcaklık aralığı: -50 ile 300°C',
-      ],
-      equipment: ['DSC cihazı', 'Hassas terazi'],
-      results: ['Tm (°C)', 'Tg (°C)', 'Kristallenme derecesi (%)'],
-    ),
-    TestProcedure(
-      name: 'TGA Analizi',
-      isoCode: 'ISO 11358',
-      category: 'Termal',
-      description: 'Termal bozunma ve kararlılık analizi.',
-      procedure: [
-        'Numune ağırlığı: 10-20mg',
-        'Isıtma hızı: 10°C/dk',
-        'Atmosfer: N2 veya hava',
-      ],
-      equipment: ['TGA cihazı'],
-      results: ['Bozunma sıcaklığı (°C)', 'Kütle kaybı (%)'],
-    ),
-
-    // Reolojik Testler
-    TestProcedure(
-      name: 'MFI Testi',
-      isoCode: 'ISO 1133',
-      category: 'Reolojik',
-      description: 'Eriyik akış indeksinin ölçülmesi.',
-      procedure: [
-        'Test sıcaklığı: Malzemeye özgü',
-        'Yük: 2.16 kg veya 5 kg',
-        'Ölçüm süresi: 10 dakika',
-      ],
-      equipment: ['MFI test cihazı'],
-      results: ['MFI (g/10min)'],
-    ),
-
-    // Optik Testler
-    TestProcedure(
-      name: 'Renk ve Opaklık',
-      isoCode: 'ISO 11664',
-      category: 'Optik',
-      description: 'Renk koordinatları ve opaklık ölçümü.',
-      procedure: [
-        'Standart aydınlatma koşulları',
-        'Minimum 3 ölçüm',
-        'Referans beyaz plaka ile kalibrasyon',
-      ],
-      equipment: ['Spektrofotometre'],
-      results: ['L*a*b* değerleri', 'Opaklık (%)'],
-    ),
-  ];
-
-  List<TestProcedure> get _filteredTests {
-    if (_searchQuery.isEmpty) return _allTests;
-    return _allTests.where((test) {
-      return test.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-          test.isoCode.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-          test.category.toLowerCase().contains(_searchQuery.toLowerCase());
-    }).toList();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            colors: [Colors.black, Colors.blueGrey.shade900],
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [AppColors.background, AppColors.black],
         ),
-        child: Column(
-          children: [
-            // Arama Çubuğu
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: TextField(
-                controller: _searchController,
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  hintText: 'Test ara...',
-                  hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
-                  prefixIcon: const Icon(Icons.search, color: Colors.white70),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.tealAccent.shade700),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.tealAccent.shade700),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: Colors.tealAccent.shade400),
-                  ),
-                  filled: true,
-                  fillColor: Colors.blueGrey.shade800,
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    _searchQuery = value;
-                  });
-                },
-              ),
-            ),
-
-            // Test Listesi
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.all(8),
-                itemCount: _filteredTests.length,
-                itemBuilder: (context, index) {
-                  final test = _filteredTests[index];
-                  return Card(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 16,
-                    ),
-                    color: Colors.blueGrey.shade700,
-                    child: ExpansionTile(
-                      leading: _getCategoryIcon(test.category),
-                      title: Text(
-                        test.name,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: Text(
-                        '${test.category} - ${test.isoCode}',
-                        style: TextStyle(color: Colors.tealAccent.shade100),
-                      ),
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                test.description,
-                                style: const TextStyle(color: Colors.white70),
-                              ),
-                              const SizedBox(height: 16),
-                              _buildSection('Test Prosedürü:', test.procedure),
-                              _buildSection('Gerekli Ekipman:', test.equipment),
-                              _buildSection('Sonuçlar:', test.results),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
+      ),
+      child: ListView(
+        padding: const EdgeInsets.all(16),
+        children:
+            allTests.map((test) => _buildTestCard(context, test)).toList(),
       ),
     );
   }
 
-  Widget _buildSection(String title, List<String> items) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
+  Widget _buildTestCard(BuildContext context, TestProcedure test) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 8),
+      color: AppColors.surface,
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        leading: _buildCategoryIcon(test.category),
+        title: Text(
+          test.name,
           style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 8),
-        ...items.map(
-          (item) => Padding(
-            padding: const EdgeInsets.only(left: 16, bottom: 4),
-            child: Row(
-              children: [
-                const Icon(Icons.arrow_right, color: Colors.white70, size: 16),
-                const SizedBox(width: 8),
-                Expanded(
-                  child:
-                      Text(item, style: const TextStyle(color: Colors.white70)),
-                ),
-              ],
-            ),
-          ),
+        subtitle: Text(
+          test.description,
+          style: const TextStyle(color: Colors.white70),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
-        const SizedBox(height: 16),
-      ],
+        trailing: _buildCategoryChip(test.category),
+        onTap: () => _showTestDetails(context, test),
+      ),
     );
   }
 
-  Widget _getCategoryIcon(String category) {
-    IconData iconData;
-    Color iconColor;
+  Widget _buildCategoryIcon(TestCategory category) {
+    IconData icon;
+    Color color;
 
-    switch (category.toLowerCase()) {
-      case 'mekanik':
-        iconData = Icons.build;
-        iconColor = Colors.orange;
+    switch (category) {
+      case TestCategory.mechanical:
+        icon = Icons.build;
+        color = Colors.blue;
         break;
-      case 'termal':
-        iconData = Icons.thermostat;
-        iconColor = Colors.red;
+      case TestCategory.thermal:
+        icon = Icons.whatshot;
+        color = Colors.orange;
         break;
-      case 'reolojik':
-        iconData = Icons.water;
-        iconColor = Colors.blue;
+      case TestCategory.rheological:
+        icon = Icons.waves;
+        color = Colors.purple;
         break;
-      case 'optik':
-        iconData = Icons.remove_red_eye;
-        iconColor = Colors.purple;
+      case TestCategory.aging:
+        icon = Icons.access_time;
+        color = Colors.amber;
         break;
-      default:
-        iconData = Icons.science;
-        iconColor = Colors.tealAccent;
+      case TestCategory.flammability:
+        icon = Icons.local_fire_department;
+        color = Colors.red;
+        break;
     }
 
-    return CircleAvatar(
-      backgroundColor: iconColor.withOpacity(0.2),
-      child: Icon(iconData, color: iconColor),
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Icon(
+        icon,
+        color: color,
+        size: 24,
+      ),
     );
   }
 
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
+  Widget _buildCategoryChip(TestCategory category) {
+    String label;
+    Color color;
+
+    switch (category) {
+      case TestCategory.mechanical:
+        label = 'Mekanik';
+        color = Colors.blue;
+        break;
+      case TestCategory.thermal:
+        label = 'Termal';
+        color = Colors.orange;
+        break;
+      case TestCategory.rheological:
+        label = 'Reolojik';
+        color = Colors.purple;
+        break;
+      case TestCategory.aging:
+        label = 'Yaşlandırma';
+        color = Colors.amber;
+        break;
+      case TestCategory.flammability:
+        label = 'Yanma';
+        color = Colors.red;
+        break;
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: color,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
   }
+
+  void _showTestDetails(BuildContext context, TestProcedure test) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TestDetailScreen(test: test),
+      ),
+    );
+  }
+}
+
+enum TestCategory {
+  mechanical,
+  thermal,
+  rheological,
+  aging,
+  flammability,
 }
 
 class TestProcedure {
   final String name;
-  final String isoCode;
-  final String category;
   final String description;
-  final List<String> procedure;
+  final String standard;
+  final List<String> parameters;
   final List<String> equipment;
-  final List<String> results;
+  final TestCategory category;
 
   TestProcedure({
     required this.name,
-    required this.isoCode,
-    required this.category,
     required this.description,
-    required this.procedure,
+    required this.standard,
+    required this.parameters,
     required this.equipment,
-    required this.results,
+    required this.category,
   });
 }
+
+final allTests = [
+  // MEKANİK TESTLER
+  TestProcedure(
+    name: 'Çekme Testi',
+    description:
+        'Malzemenin çekme mukavemeti ve uzama özelliklerinin belirlenmesi.',
+    standard: 'ISO 527 / ASTM D638',
+    parameters: [
+      'Çekme Hızı: 50mm/dk',
+      'Numune Tipi: Tip 1A',
+      'Test Sıcaklığı: 23°C'
+    ],
+    equipment: ['Universal Test Cihazı', 'Ekstensometre'],
+    category: TestCategory.mechanical,
+  ),
+  TestProcedure(
+    name: 'Darbe Testi',
+    description: 'Malzemenin darbe dayanımının ölçülmesi.',
+    standard: 'ISO 179 / ASTM D256',
+    parameters: [
+      'Çentik Tipi: A',
+      'Sarkaç Enerjisi: 4J',
+      'Test Sıcaklığı: 23°C'
+    ],
+    equipment: ['Charpy/Izod Darbe Test Cihazı', 'Çentik Açma Cihazı'],
+    category: TestCategory.mechanical,
+  ),
+  TestProcedure(
+    name: 'Eğilme Testi',
+    description: 'Malzemenin eğilme mukavemeti ve modülünün belirlenmesi.',
+    standard: 'ISO 178 / ASTM D790',
+    parameters: [
+      'Eğilme Hızı: 2mm/dk',
+      'Destek Aralığı: 64mm',
+      'Test Sıcaklığı: 23°C'
+    ],
+    equipment: ['Universal Test Cihazı', 'Üç Nokta Eğme Aparatı'],
+    category: TestCategory.mechanical,
+  ),
+  TestProcedure(
+    name: 'Sertlik Testi',
+    description: 'Malzemenin yüzey sertliğinin ölçülmesi.',
+    standard: 'ISO 868 / ASTM D2240',
+    parameters: ['Yük: 5kg', 'Bekleme Süresi: 15s', 'Test Sıcaklığı: 23°C'],
+    equipment: ['Shore Sertlik Ölçer (A/D)', 'Kalibrasyon Blokları'],
+    category: TestCategory.mechanical,
+  ),
+
+  // TERMAL TESTLER
+  TestProcedure(
+    name: 'DSC Analizi',
+    description:
+        'Erime, kristallenme ve camsı geçiş sıcaklıklarının belirlenmesi.',
+    standard: 'ISO 11357 / ASTM D3418',
+    parameters: [
+      'Isıtma Hızı: 10°C/dk',
+      'Sıcaklık Aralığı: -50 ile 300°C',
+      'Atmosfer: N2'
+    ],
+    equipment: ['DSC Cihazı', 'Alüminyum Panlar'],
+    category: TestCategory.thermal,
+  ),
+  TestProcedure(
+    name: 'TGA Analizi',
+    description: 'Termal bozunma ve dolgu miktarının belirlenmesi.',
+    standard: 'ISO 11358 / ASTM E1131',
+    parameters: [
+      'Isıtma Hızı: 20°C/dk',
+      'Sıcaklık Aralığı: 30-800°C',
+      'Atmosfer: N2/Hava'
+    ],
+    equipment: ['TGA Cihazı', 'Seramik Krozeler'],
+    category: TestCategory.thermal,
+  ),
+  TestProcedure(
+    name: 'HDT/Vicat Testi',
+    description: 'Isı sapma sıcaklığı ve yumuşama noktasının belirlenmesi.',
+    standard: 'ISO 75 / ASTM D648',
+    parameters: ['Yük: 1.8MPa', 'Isıtma Hızı: 120°C/s', 'Ortam: Yağ Banyosu'],
+    equipment: ['HDT/Vicat Test Cihazı', 'Sıcaklık Sensörleri'],
+    category: TestCategory.thermal,
+  ),
+
+  // REOLOJİK TESTLER
+  TestProcedure(
+    name: 'MFI Testi',
+    description: 'Eriyik akış indeksinin ölçülmesi.',
+    standard: 'ISO 1133 / ASTM D1238',
+    parameters: ['Yük: 2.16kg', 'Sıcaklık: Polimere Özgü', 'Ölçüm Süresi: 10s'],
+    equipment: ['MFI Test Cihazı', 'Kalibrasyon Ağırlıkları'],
+    category: TestCategory.rheological,
+  ),
+  TestProcedure(
+    name: 'Kapiler Reometre',
+    description: 'Viskozite ve kayma davranışının analizi.',
+    standard: 'ISO 11443 / ASTM D3835',
+    parameters: ['Kayma Hızı: 100-10000 1/s', 'Sıcaklık: Polimere Özgü'],
+    equipment: ['Kapiler Reometre', 'Farklı L/D Oranında Kalıplar'],
+    category: TestCategory.rheological,
+  ),
+
+  // YAŞLANDIRMA TESTLERİ
+  TestProcedure(
+    name: 'UV Yaşlandırma',
+    description: 'UV ışınlarına karşı dayanımın belirlenmesi.',
+    standard: 'ISO 4892 / ASTM G154',
+    parameters: [
+      'Işın Şiddeti: 0.89 W/m²',
+      'Dalga Boyu: 340nm',
+      'Süre: 1000 saat'
+    ],
+    equipment: ['UV Test Kabini', 'Işın Ölçer'],
+    category: TestCategory.aging,
+  ),
+  TestProcedure(
+    name: 'Termal Yaşlandırma',
+    description: 'Yüksek sıcaklıkta uzun süreli dayanımın testi.',
+    standard: 'ISO 188 / ASTM D573',
+    parameters: ['Sıcaklık: 125°C', 'Süre: 168 saat', 'Ortam: Hava'],
+    equipment: ['Yaşlandırma Fırını', 'Sıcaklık Kontrol Sistemi'],
+    category: TestCategory.aging,
+  ),
+
+  // YANMA TESTLERİ
+  TestProcedure(
+    name: 'UL94 Yanma Testi',
+    description: 'Malzemenin yanma davranışının sınıflandırılması.',
+    standard: 'UL94 / ISO 9772',
+    parameters: [
+      'Alev Yüksekliği: 20mm',
+      'Alev Uygulama Süresi: 10s',
+      'Test Sayısı: 5'
+    ],
+    equipment: ['UL94 Test Düzeneği', 'Kronometre'],
+    category: TestCategory.flammability,
+  ),
+  TestProcedure(
+    name: 'LOI Testi',
+    description: 'Limit oksijen indeksinin belirlenmesi.',
+    standard: 'ISO 4589 / ASTM D2863',
+    parameters: ['O2/N2 Karışımı', 'Numune Boyutu: 80x10x4mm'],
+    equipment: ['LOI Test Cihazı', 'Gaz Karışım Sistemi'],
+    category: TestCategory.flammability,
+  ),
+];
